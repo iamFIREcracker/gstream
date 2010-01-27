@@ -3,8 +3,8 @@
 import gobject
 import gtk
 
-from gui import Gui
-from player import Player
+from libgstream.gui import Gui
+from libgstream.player import Player
 
 class GStream(Gui, Player):
   def __init__(self):
