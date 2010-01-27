@@ -2,13 +2,11 @@
 
 import urllib
 
+import gobject
 import gst
 
-import gui
-
-class Stream(gui.Gui):
+class Player(object):
   def __init__(self):
-    super(Stream, self).__init__()
     self._source = gst.element_factory_make('playbin2')
     bus = self._source.get_bus()
     bus.add_signal_watch()
@@ -42,8 +40,9 @@ class Stream(gui.Gui):
     for attr in ['artist', 'title']:
       if attr in value:
         tag.append(value[attr])
-    self.tooltip = ' - '.join(tag)
     self._tag = tag
+    if hasattr(self, 'tooltip'):
+      self.tooltip = ' - '.join(tag)
 
   @property
   def uri(self):
@@ -72,6 +71,3 @@ class Stream(gui.Gui):
     value = value % len(self._uri)
     self._index = value
     self._source.set_property('uri', self._uri[self._index])
-
-if __name__ == '__main__':
-  s = Stream().loop()

@@ -4,7 +4,6 @@ import time
 
 import gobject
 import gtk
-import gst
 
 radio_stations = [
     ('Chillout', 'http://di.fm/mp3/chillout.pls'),
@@ -123,10 +122,6 @@ class Gui(gtk.StatusIcon):
       menu.show_all()
       menu.popup(None, None, None, 3, time)
   
-  def loop(self):
-    gobject.threads_init()
-    gtk.main()
-
   @property
   def tooltip(self):
     return self._tooltip
@@ -135,6 +130,3 @@ class Gui(gtk.StatusIcon):
   def tooltip(self, value):
     self._tooltip = value
     self.set_tooltip(value)
-
-if __name__ == '__main__':
-  Gui().loop()
