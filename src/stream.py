@@ -42,7 +42,7 @@ class Stream(gui.Gui):
     for attr in ['artist', 'title']:
       if attr in value:
         tag.append(value[attr])
-    self.set_tooltip(' - '.join(tag))
+    self.tooltip = ' - '.join(tag)
     self._tag = tag
 
   @property

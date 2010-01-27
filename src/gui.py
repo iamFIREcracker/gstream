@@ -28,6 +28,7 @@ class Gui(gtk.StatusIcon):
     self.connect('popup-menu', self.popup_menu_cb)
     self.set_visible(True)
 
+    self._tooltip = ''
     self._playing = False
     self._active = -1
 
@@ -50,6 +51,9 @@ class Gui(gtk.StatusIcon):
       menu.append(item)
     menu.show_all()
     menu.popup(None, None, None, 1, 0)
+
+  def copy_cb(self, widget):
+    gtk.Clipboard().set_text(self.tooltip)
 
   def add_cb(self, widget):
     dialog = gtk.Dialog('New radio', None, gtk.DIALOG_MODAL,
@@ -94,6 +98,12 @@ class Gui(gtk.StatusIcon):
         item.connect('activate', self.stop_cb)
       menu.append(item)
 
+      item = gtk.ImageMenuItem(gtk.STOCK_COPY)
+      label = item.get_child()
+      label.set_text('Copy title')
+      item.connect('activate', self.copy_cb)
+      menu.append(item)
+
       item = gtk.ImageMenuItem(gtk.STOCK_ADD)
       label = item.get_child()
       label.set_text('Add radio')
@@ -116,6 +126,15 @@ class Gui(gtk.StatusIcon):
   def loop(self):
     gobject.threads_init()
     gtk.main()
+
+  @property
+  def tooltip(self):
+    return self._tooltip
+
+  @tooltip.setter
+  def tooltip(self, value):
+    self._tooltip = value
+    self.set_tooltip(value)
 
 if __name__ == '__main__':
   Gui().loop()
