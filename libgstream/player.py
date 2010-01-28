@@ -40,9 +40,10 @@ class Player(object):
     for attr in ['artist', 'title']:
       if attr in value:
         tag.append(value[attr])
-    self._tag = tag
-    if hasattr(self, 'tooltip'):
-      self.tooltip = ' - '.join(tag)
+    if tag:
+      self._tag = tag
+      if hasattr(self, 'tooltip'):
+        self.tooltip = ' - '.join(tag)
 
   @property
   def uri(self):
