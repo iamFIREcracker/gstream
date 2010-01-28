@@ -5,16 +5,18 @@ import time
 import gobject
 import gtk
 
+from notifications import notify
+
 radio_stations = [
-    ('Chillout', 'http://di.fm/mp3/chillout.pls'),
-    ('Electro', 'http://di.fm/mp3/electro.pls'),
-    ('Funky House', 'http://di.fm/mp3/funkyhouse.pls'),
-    ('House', 'http://di.fm/mp3/house.pls'),
-    ('Lounge', 'http://di.fm/mp3/lounge.pls'),
-    ('Minimal', 'http://di.fm/mp3/minimal.pls'),
-    ('Soulful House', 'http://di.fm/mp3/soulfulhouse.pls'),
-    ('Techno', 'http://di.fm/mp3/techno.pls'),
-    ('Trance', 'http://di.fm/mp3/trance.pls'),
+    ('DI - Chillout', 'http://di.fm/mp3/chillout.pls'),
+    ('DI - Electro', 'http://di.fm/mp3/electro.pls'),
+    ('DI - Funky House', 'http://di.fm/mp3/funkyhouse.pls'),
+    ('DI - House', 'http://di.fm/mp3/house.pls'),
+    ('DI - Lounge', 'http://di.fm/mp3/lounge.pls'),
+    ('DI - Minimal', 'http://di.fm/mp3/minimal.pls'),
+    ('DI - Soulful House', 'http://di.fm/mp3/soulfulhouse.pls'),
+    ('DI - Techno', 'http://di.fm/mp3/techno.pls'),
+    ('DI - Trance', 'http://di.fm/mp3/trance.pls'),
     ('M2o', 'http://mp3.kataweb.it:8000/M2O.m3u'),
   ]
 
@@ -130,3 +132,4 @@ class Gui(gtk.StatusIcon):
   def tooltip(self, value):
     self._tooltip = value
     self.set_tooltip(value)
+    notify(radio_stations[self._active][0], value)
