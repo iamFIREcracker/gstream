@@ -6,22 +6,10 @@ import gobject
 import gtk
 
 from notifications import notify
-
-radio_stations = [
-    ('DI - Chillout', 'http://di.fm/mp3/chillout.pls'),
-    ('DI - Electro', 'http://di.fm/mp3/electro.pls'),
-    ('DI - Funky House', 'http://di.fm/mp3/funkyhouse.pls'),
-    ('DI - House', 'http://di.fm/mp3/house.pls'),
-    ('DI - Lounge', 'http://di.fm/mp3/lounge.pls'),
-    ('DI - Minimal', 'http://di.fm/mp3/minimal.pls'),
-    ('DI - Soulful House', 'http://di.fm/mp3/soulfulhouse.pls'),
-    ('DI - Techno', 'http://di.fm/mp3/techno.pls'),
-    ('DI - Trance', 'http://di.fm/mp3/trance.pls'),
-    ('M2o', 'http://mp3.kataweb.it:8000/M2O.m3u'),
-  ]
+from playlist import Playlist
 
 class Gui(gtk.StatusIcon):
-  def __init__(self):
+  def __init__(self, playlist):
     super(Gui, self).__init__()
     self.set_from_icon_name('applications-multimedia')
 
@@ -29,6 +17,7 @@ class Gui(gtk.StatusIcon):
     self.connect('popup-menu', self.popup_menu_cb)
     self.set_visible(True)
 
+    self._playlist = playlist
     self._tooltip = ''
     self._playing = False
     self._active = -1
@@ -43,7 +32,7 @@ class Gui(gtk.StatusIcon):
 
   def activate_cb(self, widget):
     menu = gtk.Menu()
-    for (i, (name, uri)) in enumerate(radio_stations):
+    for (i, (name, uri)) in enumerate(self._playlist):
       item = gtk.MenuItem(name)
       if i == self._active:
         label = item.get_child()
@@ -71,7 +60,7 @@ class Gui(gtk.StatusIcon):
     if response_id == gtk.RESPONSE_ACCEPT:
       (name, url) = (name_entry.get_text(), url_entry.get_text()) 
       if name and url:
-        radio_stations.append((name, url))
+        self._playlist.append((name, url))
     dialog.destroy()
 
   def remove_cb(self, widget):
@@ -132,4 +121,4 @@ class Gui(gtk.StatusIcon):
   def tooltip(self, value):
     self._tooltip = value
     self.set_tooltip(value)
-    notify(radio_stations[self._active][0], value)
+    notify(self._playlist[self._active][0], value)
