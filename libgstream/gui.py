@@ -40,7 +40,8 @@ class Gui(gtk.StatusIcon):
       item.connect('activate', self.select_cb, uri, i)
       menu.append(item)
     menu.show_all()
-    menu.popup(None, None, None, 1, 0)
+    menu.popup(None, None, gtk.status_icon_position_menu, 1, 
+               gtk.get_current_event_time(), self)
 
   def copy_cb(self, widget):
     gtk.Clipboard().set_text(self.tooltip)
@@ -63,8 +64,8 @@ class Gui(gtk.StatusIcon):
         self._playlist.append((name, url))
     dialog.destroy()
 
-  def remove_cb(self, widget):
-    pass
+  def remove_cb(self, widget, title):
+    self._playlist.remove(title)
 
   def play_cb(self, widget):
     if self._active != -1 and not self._playing and hasattr(self, 'play'):
@@ -100,10 +101,15 @@ class Gui(gtk.StatusIcon):
       item.connect('activate', self.add_cb)
       menu.append(item)
 
+      submenu = gtk.Menu()
+      for (title, _) in self._playlist:
+        item = gtk.MenuItem(title)
+        item.connect('activate', self.remove_cb, title)
+        submenu.append(item)
       item = gtk.ImageMenuItem(gtk.STOCK_REMOVE)
       label = item.get_child()
       label.set_text('Remove radio')
-      item.connect('activate', self.remove_cb)
+      item.set_submenu(submenu)
       menu.append(item)
 
       item = gtk.ImageMenuItem(gtk.STOCK_QUIT)
@@ -111,7 +117,8 @@ class Gui(gtk.StatusIcon):
       menu.append(item)
 
       menu.show_all()
-      menu.popup(None, None, None, 3, time)
+      menu.popup(None, None, gtk.status_icon_position_menu, button, time,
+                 self)
   
   @property
   def tooltip(self):

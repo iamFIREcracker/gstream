@@ -26,6 +26,10 @@ class Playlist(object):
     self._config.set('Playlist', *item)
     self.save()
 
+  def remove(self, option):
+    self._config.remove_option('Playlist', option)
+    self.save()
+
   def __getitem__(self, item):
     return self._config.items('Playlist')[item]
 
