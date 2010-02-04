@@ -7,7 +7,7 @@ class Playlist(object):
   def __init__(self, location):
     dir = os.path.expanduser(os.path.dirname(location))
     if not os.path.exists(dir):
-      os.mkdir(dir)
+      os.makedirs(dir)
 
     self._config = ConfigParser()
     self._config.optionxform = str
