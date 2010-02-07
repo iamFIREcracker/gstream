@@ -5,9 +5,9 @@ import os
 import gobject
 import gtk
 
-from libgstream.gui import Gui
-from libgstream.playlist import Playlist
-from libgstream.player import Player
+from gstreamlib.gui import Gui
+from gstreamlib.playlist import Playlist
+from gstreamlib.player import Player
 
 playlist_location = os.path.join('~', '.config', 'gstream', 'playlist.cfg')
 
