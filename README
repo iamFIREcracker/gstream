@@ -1,1 +1,12 @@
-TODO
+gstream - simple internet radio streamer
+========================================
+
+Description
+-----------
+gstream is a simple internet radio player written in python w/ gtk and
+gstreamer libraries.
+
+Installation
+------------
+
+  python setup.py install
