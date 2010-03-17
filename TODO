@@ -1,0 +1,5 @@
+Add reload button used to reload the application (configuration file).
+The index of the currently playing radio should be consistent while adding a
+  new radio.
+Add edit radio entry.
+Sort radio stations by name.
